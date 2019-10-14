@@ -4,54 +4,77 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Grid, { GridSpacing } from '@material-ui/core/Grid';
 import { Paper } from '@material-ui/core';
-import './SearchPage.css'
+import './SearchPage.css';
+import Table from '../Table';
 
 class SearchPage extends Component{
+    state = {
+        userlists: []
+    }
+
+    constructor(props) {
+        super(props);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleClear = this.handleClear.bind(this);
+    }
+
+    componentDidMount(firstname,lastname) {
+        fetch('http://localhost:8080/searchUser?firstname='+firstname+'&lastname='+lastname, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(res => res.json())
+            .then((data) => {
+                this.setState({userlists: data})
+                console.log(this.state.userlists)
+            })
+            .catch(console.log)
+    }
+
+    handleSubmit(e) {
+        this.componentDidMount(this.firstname.value,this.lastname.value);
+    }
+
+    handleClear(e){
+        this.firstname.value='';
+        this.lastname.value='';
+    }
 
     render() {
         return (
-            <form>
-                <AppBar position="static">
-                    <Toolbar>
-                        <Typography variant="h5">  MANAGE ADMIN USER  </Typography>
-                    </Toolbar>
-                </AppBar>
-                <div class="form-wrap">
-                    <h3> USER SEARCH </h3>
-                    First name :
-                    <input type="text" name="name" />   <br/>
-
-                    Last name :
-                    <input type="text" name="name" /> <br/>
-                    <input type="submit" value="Search" />
-                    <input type="button" value ="Clear"/>
-                    <input type="submit" value ="AddUser"/>
-
+            <div>
+        <form className="margin-left">
+            <div>
+            <h3> MANAGE ADMIN USER </h3>
+            </div>
+            <div className="border">
+                <div className="background-border"> USER SEARCH </div>
+                <div className="form-wrap">
+                First name <input type="text" ref={(input) => this.firstname = input} /> <br/>
+                Last name <input type="text" ref={(input) => this.lastname = input} /> <br/>
                 </div>
-                <div>
-                    <AppBar position="static">
-                        <Toolbar>
-
-                            <Typography variant="h6"> ADMIN USER  </Typography>
-
-                        </Toolbar>
-                    </AppBar>
-                </div>
-                <div>
-                    <Grid container>
-                        <Grid item sm> <Paper style={{  padding: 10 , margin: 10}}> FirstName  </Paper></Grid>
-                        <Grid item sm> <Paper style={{  padding: 10 , margin: 10}}> LastName </Paper> </Grid>
-                        <Grid item sm> <Paper style={{  padding: 10 , margin: 10}}> UserName</Paper>  </Grid>
-                        <Grid item sm> <Paper style={{  padding: 10 , margin: 10}}> Title </Paper></Grid>
-                        <Grid item sm> <Paper style={{  padding: 10 , margin: 10}}> Status </Paper></Grid>
-                        <Grid item sm> <Paper style={{  padding: 10 , margin: 10}}> Edit </Paper> </Grid>
-                    </Grid>
+                <div className="button-group">
+                <input type="button" value="Search" onClick={this.handleSubmit}/>
+                <input type="button" value="Clear" onClick={this.handleClear}/>
+                <input type="button" value="AddUser"/>
                 </div>
 
+            </div>
+        </form>
+            <br/>
+            <div>
+                <h3>ADMIN USER </h3>
+            </div>
 
+            <div>
+                    <Table data={this.state.userlists}/>
+            </div>
+            </div>
 
-            </form>
-        )
+                )
 
     }
 
