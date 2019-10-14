@@ -1,0 +1,11 @@
+.form-wrap input[type="submit"], .form-wrap input[type="button"] {
+    margin-top: 12px;
+    margin-right: 7px;
+}
+
+.form-wrap {
+    background: #eee;
+    width: 300px;
+    padding: 20px;
+    margin: 25px;
+}
