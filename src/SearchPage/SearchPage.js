@@ -53,8 +53,8 @@ class SearchPage extends Component{
             <div className="border">
                 <div className="background-border"> USER SEARCH </div>
                 <div className="form-wrap">
-                First name <input type="text" ref={(input) => this.firstname = input} /> <br/>
-                Last name <input type="text" ref={(input) => this.lastname = input} /> <br/>
+                 First name: <input type="text" ref={(input) => this.firstname = input} /> <br/>
+                 Last name: <input type="text" ref={(input) => this.lastname = input} /> <br/>
                 </div>
                 <div className="button-group">
                 <input type="button" value="Search" onClick={this.handleSubmit}/>
